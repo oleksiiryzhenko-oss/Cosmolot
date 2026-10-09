@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cosmolot</string>
+    <string name="title_activity_main">Cosmolot</string>
+    <string name="package_name">com.cosmoland.club.c1249c1e</string>
+    <string name="custom_url_scheme">com.cosmoland.club.c1249c1e</string>
+</resources>
