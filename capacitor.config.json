@@ -1,0 +1,9 @@
+{
+  "appId": "com.cosmoland.club.c1249c1e",
+  "appName": "Cosmolot",
+  "webDir": "dist/client",
+  "backgroundColor": "#17102a",
+  "android": {
+    "adjustMarginsForEdgeToEdge": "force"
+  }
+}

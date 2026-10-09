@@ -1,0 +1,35 @@
+workflows:
+  android-release:
+    name: Cosmolot signed release
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      android_signing:
+        - Cosmolot
+      node: 22.12.0
+      java: 21
+    scripts:
+      - name: Build interface and sync Capacitor
+        script: |
+          set -eu
+          npm ci
+          npm run test:edge
+          npm run build:android
+          npx cap sync android
+      - name: Check configuration and signing
+        script: |
+          set -eu
+          : "${CM_KEYSTORE_PATH:?Add keystore reference Cosmolot}"
+          : "${CM_KEYSTORE_PASSWORD:?Missing keystore password}"
+          : "${CM_KEY_ALIAS:?Missing key alias}"
+          : "${CM_KEY_PASSWORD:?Missing key password}"
+          printf 'sdk.dir=%s\n' "$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build signed APK and AAB
+        script: |
+          set -eu
+          cd android
+          bash gradlew :app:testDebugUnitTest :app:assembleRelease :app:bundleRelease --console=plain
+    artifacts:
+      - android/app/build/outputs/apk/release/*.apk
+      - android/app/build/outputs/bundle/release/*.aab
+      - android/app/build/outputs/mapping/release/mapping.txt
